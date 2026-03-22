@@ -5,6 +5,8 @@ This project has two parts:
 1. **`arduino.ino`** — the production Arduino sketch that runs on hardware, driving a 120-LED WS2812 strip arranged around a circular track display using [FastLED](https://fastled.io/).
 2. **`disneyland_railroad_simulator.jsx`** — a browser-based React mockup that mirrors the `.ino` logic exactly, so the LED behaviour can be previewed and iterated on without needing the physical hardware.
 
+The React mockup is available at [https://dipsylala.github.io/disneyland-railroad-simulator/](https://dipsylala.github.io/disneyland-railroad-simulator/)
+
 ## What it does
 
 The `.ino` sketch (and its JSX mirror) simulate 120 LEDs arranged in a circle representing the railroad loop. Five trains (the real named locomotives) travel around the track in real time. Each train renders as a bright white head LED with dimmer trailing carriage lights. Station markers are always faintly lit.
