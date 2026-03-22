@@ -168,7 +168,7 @@ export default function DisneylandRailroadLedSimulator() {
             <label className="rounded-2xl px-4 py-2 bg-neutral-900 border border-neutral-800 flex flex-col">
               <span className="text-xs text-neutral-400">Speed</span>
               <select
-                className="bg-transparent outline-none"
+                className="bg-neutral-900 outline-none text-neutral-100"
                 value={speedMultiplier}
                 onChange={(e) => setSpeedMultiplier(Number(e.target.value))}
               >
@@ -184,7 +184,7 @@ export default function DisneylandRailroadLedSimulator() {
             <label className="rounded-2xl px-4 py-2 bg-neutral-900 border border-neutral-800 flex flex-col">
               <span className="text-xs text-neutral-400">Loop time</span>
               <select
-                className="bg-transparent outline-none"
+                className="bg-neutral-900 outline-none text-neutral-100"
                 value={loopMinutes}
                 onChange={(e) => setLoopMinutes(Number(e.target.value))}
               >
@@ -196,7 +196,7 @@ export default function DisneylandRailroadLedSimulator() {
             <label className="rounded-2xl px-4 py-2 bg-neutral-900 border border-neutral-800 flex flex-col">
               <span className="text-xs text-neutral-400">Trail length</span>
               <select
-                className="bg-transparent outline-none"
+                className="bg-neutral-900 outline-none text-neutral-100"
                 value={trainLength}
                 onChange={(e) => setTrainLength(Number(e.target.value))}
               >
@@ -208,7 +208,7 @@ export default function DisneylandRailroadLedSimulator() {
             <label className="rounded-2xl px-4 py-2 bg-neutral-900 border border-neutral-800 flex flex-col">
               <span className="text-xs text-neutral-400">Station dwell</span>
               <select
-                className="bg-transparent outline-none"
+                className="bg-neutral-900 outline-none text-neutral-100"
                 value={dwellSec}
                 onChange={(e) => setDwellSec(Number(e.target.value))}
               >
