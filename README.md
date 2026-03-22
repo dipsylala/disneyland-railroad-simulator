@@ -36,7 +36,18 @@ The JSX simulator adds a station arrival board showing the next two trains due a
 - 120-LED WS2812 strip connected to pin 6
 - [FastLED library](https://fastled.io/) installed in the Arduino IDE
 
-Open `arduino.ino` in the Arduino IDE and upload to the board. Brightness is set to 80/255 by default — adjust `FastLED.setBrightness()` in `setup()` to taste.
+Open `arduino.ino` in the Arduino IDE and upload to the board.
+
+**Key config values at the top of `arduino.ino`:**
+
+| Constant | Default | Description |
+| --- | --- | --- |
+| `LOOP_TIME_SEC` | `18 * 60` | Travel time for one full circuit, excluding dwell |
+| `DWELL_SEC` | `60.0` | Seconds each train pauses at a station (`0.0` to disable) |
+| `STATIONS[]` | 0, 42, 60, 84 | LED index of each station — adjust to match your physical strip |
+| `trainLength` | `5` | Number of trailing carriage LEDs behind the locomotive |
+
+Brightness is set to 80/255 by default — adjust `FastLED.setBrightness()` in `setup()` to taste.
 
 ## Browser simulator
 
@@ -57,8 +68,10 @@ Then open [http://localhost:5173](http://localhost:5173).
 | --- | --- |
 | Pause / Resume | Freezes or continues the simulation |
 | Reset | Returns all trains to their starting positions |
-| Speed | Multiplier over real time (30x – 600x) |
-| Loop time | Adjustable total circuit duration (15, 18, or 20 minutes) |
+| Speed | Multiplier over real time (1x – 600x) |
+| Loop time | Total travel time for one circuit (15, 18, or 20 minutes) |
+| Trail length | Number of trailing carriage LEDs behind the locomotive (0 = head only) |
+| Station dwell | How long each train pauses at a station before moving on (0 = no pause) |
 
 ## Project structure
 
