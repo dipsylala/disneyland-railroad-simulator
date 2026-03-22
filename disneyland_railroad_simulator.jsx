@@ -11,12 +11,14 @@ const TRAIN_NAMES = [
   "Ward Kimball",
 ];
 
+// Station positions defined in LED index (0 – NUM_LEDS-1).
+// Adjust these to match the physical spacing on your strip.
 const STATIONS = [
-  { name: "Main Street, U.S.A.", pos: 0.0 },
-  { name: "New Orleans Square", pos: 0.35 },
-  { name: "Mickey's Toontown", pos: 0.5 },
-  { name: "Tomorrowland", pos: 0.7},
-];
+  { name: "Main Street, U.S.A.", led: 0 },
+  { name: "New Orleans Square", led: 42 },
+  { name: "Mickey's Toontown",  led: 60 },
+  { name: "Tomorrowland",       led: 84 },
+].map((s) => ({ ...s, pos: s.led / NUM_LEDS }));
 
 function wrap01(v) {
   let x = v % 1;
@@ -34,7 +36,7 @@ function formatEta(seconds) {
   return `${mins} min`;
 }
 
-function buildLedBrightness(trains) {
+function buildLedBrightness(trains, trainLength) {
   const values = new Array(NUM_LEDS).fill(0);
 
   for (const train of trains) {
@@ -45,8 +47,7 @@ function buildLedBrightness(trains) {
     values[head] += 1.0 * (1 - frac);
     values[(head + 1) % NUM_LEDS] += 1.0 * frac;
 
-    const trainLength = 5;
-    for (let i = 1; i < trainLength; i++) {
+    for (let i = 1; i <= trainLength; i++) {
       const idx = (head - i + NUM_LEDS) % NUM_LEDS;
       const falloff = Math.max(0, 1.0 - i * 0.2);
       values[idx] += 0.65 * falloff;
@@ -66,6 +67,7 @@ export default function DisneylandRailroadLedSimulator() {
   const [speedMultiplier, setSpeedMultiplier] = useState(120);
   const [loopMinutes, setLoopMinutes] = useState(18);
   const [timeSec, setTimeSec] = useState(0);
+  const [trainLength, setTrainLength] = useState(5);
 
   useEffect(() => {
     let last = performance.now();
@@ -93,7 +95,7 @@ export default function DisneylandRailroadLedSimulator() {
     }));
   }, [timeSec, loopTimeSec]);
 
-  const leds = useMemo(() => buildLedBrightness(trains), [trains]);
+  const leds = useMemo(() => buildLedBrightness(trains, trainLength), [trains, trainLength]);
 
   const nextArrivals = useMemo(() => {
     return STATIONS.map((station) => {
@@ -122,7 +124,7 @@ export default function DisneylandRailroadLedSimulator() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
             <button
               className="rounded-2xl px-4 py-2 bg-neutral-800 hover:bg-neutral-700 transition"
               onClick={() => setRunning((r) => !r)}
@@ -161,6 +163,18 @@ export default function DisneylandRailroadLedSimulator() {
                 <option value={15}>15 min</option>
                 <option value={18}>18 min</option>
                 <option value={20}>20 min</option>
+              </select>
+            </label>
+            <label className="rounded-2xl px-4 py-2 bg-neutral-900 border border-neutral-800 flex flex-col">
+              <span className="text-xs text-neutral-400">Trail length</span>
+              <select
+                className="bg-transparent outline-none"
+                value={trainLength}
+                onChange={(e) => setTrainLength(Number(e.target.value))}
+              >
+                {[0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 15].map((n) => (
+                  <option key={n} value={n}>{n} LED{n !== 1 ? "s" : ""}</option>
+                ))}
               </select>
             </label>
           </div>

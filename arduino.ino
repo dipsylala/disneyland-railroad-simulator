@@ -9,12 +9,13 @@ CRGB leds[NUM_LEDS];
 const float LOOP_TIME_SEC = 18 * 60.0;   // 18 minutes
 const int NUM_TRAINS = 5;
 
-// Station positions (0.0 - 1.0)
-const float STATIONS[] = {
-  0.00,  // Main Street
-  0.35,  // New Orleans
-  0.50,  // Toontown
-  0.7    // Tomorrowland
+// Station positions in LED index (0 – NUM_LEDS-1).
+// Adjust to match the physical spacing on your strip.
+const int STATIONS[] = {
+  0,   // Main Street
+  42,  // New Orleans
+  60,  // Toontown
+  84   // Tomorrowland
 };
 
 const char* STATION_NAMES[] = {
@@ -89,7 +90,7 @@ void drawTrain(float pos) {
   // ---- Carriages (trailing, dimmer) ----
   const int trainLength = 5;
 
-  for (int i = 1; i < trainLength; i++) {
+  for (int i = 1; i <= trainLength; i++) {
     int idx = (head - i + NUM_LEDS) % NUM_LEDS;
 
     float falloff = 1.0 - (i * 0.2);
@@ -107,8 +108,7 @@ void render() {
 
   // ---- Draw stations (dim markers) ----
   for (int s = 0; s < 4; s++) {
-    int idx = (int)(STATIONS[s] * NUM_LEDS);
-    leds[idx] = CRGB(40, 40, 40);
+    leds[STATIONS[s]] = CRGB(40, 40, 40);
   }
 
   // ---- Draw trains ----
